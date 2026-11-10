@@ -188,26 +188,34 @@ public class Player
         return string.Join(Environment.NewLine, output);
     }
 
+    public string GetStatsDisplay(Messages messages)
+    {
+        var output = new List<string>
+        {
+            messages.GetMessage("stats_strength") + Strength,
+            messages.GetMessage("stats_agility") + Agility,
+            messages.GetMessage("stats_health") + HealthPoints,
+            messages.GetMessage("stats_gold") + Gold
+        };
+        if (HasMagicalArmor)
+            output.Add(messages.GetMessage("stats_damage_reduction") + DamageReduction);
+        if (HasEnchantedWeapon)
+            output.Add(string.Format(messages.GetMessage("stats_magic_damage_bonus"), MagicDamageBonus));
+        if (Weapon != null)
+        {
+            output.Add(messages.GetMessage("stats_weapon") + messages.TranslateWeaponForDisplay(Weapon.Type));
+            output.Add(messages.GetMessage("stats_damage") + Weapon.MaxDamage);
+        }
+        return string.Join(Environment.NewLine, output);
+    }
+
     public void DisplayStats(Messages messages)
     {
         Console.WriteLine(messages.GetMessage("stats_header"));
         Console.WriteLine(messages.GetMessage("stats_name") + Name);
         Console.WriteLine(messages.GetMessage("stats_race") + messages.TranslateRaceForDisplay(Race));
         Console.WriteLine(messages.GetMessage("stats_occupation") + messages.TranslateOccupationForDisplay(Occupation));
-        Console.WriteLine(messages.GetMessage("stats_strength") + Strength);
-        Console.WriteLine(messages.GetMessage("stats_agility") + Agility);
-        Console.WriteLine(messages.GetMessage("stats_health") + HealthPoints);
-        Console.WriteLine(messages.GetMessage("stats_gold") + Gold);
-        if (HasMagicalArmor)
-            Console.WriteLine(messages.GetMessage("stats_damage_reduction") + DamageReduction);
-        if (HasEnchantedWeapon)
-            Console.WriteLine(string.Format(messages.GetMessage("stats_magic_damage_bonus"), MagicDamageBonus));
-
-        if (Weapon != null)
-        {
-            Console.WriteLine(messages.GetMessage("stats_weapon") + messages.TranslateWeaponForDisplay(Weapon.Type));
-            Console.WriteLine(messages.GetMessage("stats_damage") + Weapon.MaxDamage);
-        }
+        Console.WriteLine(GetStatsDisplay(messages));
     }
 
     public int RollAttack()

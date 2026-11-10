@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\choose-your-own-adventure-game.csproj" />
+    <Content Include="StatsDisplaySnapshots.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>
