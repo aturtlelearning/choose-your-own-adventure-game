@@ -56,6 +56,11 @@ public class Game
                     else if (selectedPath == "south")
                     {
                         Console.WriteLine(messages.GetMessage("south_path_narrative"));
+                        if (!new Merchant().Encounter(player, messages))
+                        {
+                            Console.WriteLine(messages.GetMessage("adventure_ends"));
+                            return;
+                        }
                     }
                     else if (selectedPath == "north")
                     {

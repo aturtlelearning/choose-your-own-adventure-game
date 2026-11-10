@@ -139,7 +139,7 @@ public class ItalianLanguageTests
     [TestMethod]
     public void StartGame_ItalianCharacterDisplaysTranslatedStatsAndTakesSouthPath()
     {
-        string output = RunGame("4\n1\nUmano\nEroe\nGuerriero\nroll\nroll\nroll\n1\n2\ns\ne\n");
+        string output = RunGame("4\n1\nUmano\nEroe\nGuerriero\nroll\nroll\nroll\n1\n2\ns\n3\ne\n");
         StringAssert.Contains(output, "Razza: Umano");
         StringAssert.Contains(output, "Professione: Guerriero");
         StringAssert.Contains(output, "Arma: spada lunga");

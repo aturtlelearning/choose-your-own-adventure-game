@@ -1,6 +1,11 @@
 public class Player
 {
-    private readonly Die _die = new Die();
+    private readonly Die _die;
+
+    public Player(Die? die = null)
+    {
+        _die = die ?? new Die();
+    }
 
     public string Name { get; set; } = "";
     public string Race { get; set; } = "";
@@ -11,6 +16,35 @@ public class Player
     public int HealthPoints { get; set; }
 
     public Weapon? Weapon { get; set; }
+
+    public const int MagicalArmorCost = 40;
+    public const int WeaponEnchantmentCost = 40;
+    public int Gold { get; private set; } = 50;
+    public bool HasMagicalArmor { get; private set; }
+    public bool HasEnchantedWeapon { get; private set; }
+    public bool HasPurchasedUpgrade => HasMagicalArmor || HasEnchantedWeapon;
+    public int DamageReduction => HasMagicalArmor ? 2 : 0;
+    public int MagicDamageBonus => HasEnchantedWeapon ? 2 : 0;
+
+    public bool TryPurchaseMagicalArmor()
+    {
+        if (HasPurchasedUpgrade || Gold < MagicalArmorCost)
+            return false;
+
+        Gold -= MagicalArmorCost;
+        HasMagicalArmor = true;
+        return true;
+    }
+
+    public bool TryPurchaseWeaponEnchantment()
+    {
+        if (HasPurchasedUpgrade || Gold < WeaponEnchantmentCost || Weapon == null)
+            return false;
+
+        Gold -= WeaponEnchantmentCost;
+        HasEnchantedWeapon = true;
+        return true;
+    }
 
     public void CreateCharacter(Messages messages)
     {
@@ -145,6 +179,11 @@ public class Player
         Console.WriteLine(messages.GetMessage("stats_strength") + Strength);
         Console.WriteLine(messages.GetMessage("stats_agility") + Agility);
         Console.WriteLine(messages.GetMessage("stats_health") + HealthPoints);
+        Console.WriteLine(messages.GetMessage("stats_gold") + Gold);
+        if (HasMagicalArmor)
+            Console.WriteLine(messages.GetMessage("stats_damage_reduction") + DamageReduction);
+        if (HasEnchantedWeapon)
+            Console.WriteLine(string.Format(messages.GetMessage("stats_magic_damage_bonus"), MagicDamageBonus));
 
         if (Weapon != null)
         {
@@ -212,7 +251,7 @@ public class Player
         }
 
         // DAMAGE
-        int damage = RollDamage();
+        int damage = RollDamage() + MagicDamageBonus;
         dragon.HealthPoints -= damage;
 
         output.Add(string.Format(messages.GetMessage("player_damage_dealt"), damage));

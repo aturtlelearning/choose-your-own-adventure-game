@@ -92,7 +92,7 @@ public class Dragon
             return string.Join(Environment.NewLine, output);
         }
 
-        int damage = RollDamage();
+        int damage = Math.Max(0, RollDamage() - player.DamageReduction);
         player.HealthPoints -= damage;
 
         if (player.HealthPoints < 0)

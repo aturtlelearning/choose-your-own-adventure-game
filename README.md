@@ -1,6 +1,12 @@
 Press CTRL-Shift-V to preview .MD files. 
 # Choose Your Own Adventure (CYOA) Game
 
+## CIDM 4390 AI Agentic Coding Part 3
+
+The south-path merchant sells magical armor or an enchantment for the player's
+existing weapon. See the [submission guide](docs/merchant-encounter-submission.md)
+for play instructions, planning artifacts, and validation results.
+
 ## Homework Instructions: 
 https://docs.google.com/document/d/1f-YFPrVFI4oKv7H9p0zZgL-5OgdwJsOYUYoUnc-r1Y8/edit?tab=t.0#heading=h.4jkzdf4ipmah  
 

@@ -57,6 +57,11 @@ public class Combat
         output.Add(messages.GetMessage("stats_strength") + player.Strength);
         output.Add(messages.GetMessage("stats_agility") + player.Agility);
         output.Add(messages.GetMessage("stats_health") + player.HealthPoints);
+        output.Add(messages.GetMessage("stats_gold") + player.Gold);
+        if (player.HasMagicalArmor)
+            output.Add(messages.GetMessage("stats_damage_reduction") + player.DamageReduction);
+        if (player.HasEnchantedWeapon)
+            output.Add(string.Format(messages.GetMessage("stats_magic_damage_bonus"), player.MagicDamageBonus));
 
         if (player.Weapon != null)
         {
