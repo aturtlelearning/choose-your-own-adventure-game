@@ -53,6 +53,10 @@ public class Game
                         running = false;
                         inAdventureMenu = false;
                     }
+                    else if (selectedPath == "inventory")
+                    {
+                        Console.WriteLine(player.GetInventoryDisplay(messages));
+                    }
                     else if (selectedPath == "south")
                     {
                         Console.WriteLine(messages.GetMessage("south_path_narrative"));
@@ -111,10 +115,11 @@ public class Game
     public bool IsValidPathChoice(string? input)
     {
         if (string.IsNullOrWhiteSpace(input)) return false;
-        string trimmed = input.Trim().ToLower();
+        string trimmed = input.Trim().ToLowerInvariant();
         return trimmed == "n" || trimmed == "north" ||
                trimmed == "s" || trimmed == "south" ||
                trimmed == "w" || trimmed == "west" ||
+               trimmed == "i" || trimmed == "inventory" ||
                trimmed == "e" || trimmed == "exit";
     }
 
@@ -132,7 +137,10 @@ public class Game
         {
             Console.WriteLine(messages.GetMessage("path_prompt_full"));
             Console.Write(messages.GetMessage("enter_choice"));
-            string? input = Console.ReadLine()?.Trim().ToLower();
+            string? input = Console.ReadLine()?.Trim().ToLowerInvariant();
+
+            if (input == null)
+                return "exit";
 
             if (input == "north" || input == "n")
                 return "north";
@@ -142,6 +150,9 @@ public class Game
 
             if (input == "west" || input == "w")
                 return "west";
+
+            if (input == "inventory" || input == "i")
+                return "inventory";
 
             if (input == "exit" || input == "e")
                 return "exit";

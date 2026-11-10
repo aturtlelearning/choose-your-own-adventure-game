@@ -170,6 +170,24 @@ public class Player
         }
     }
 
+    public string GetInventoryDisplay(Messages messages)
+    {
+        var output = new List<string> { messages.GetMessage("inventory_header") };
+        output.Add(messages.GetMessage("stats_weapon") + (Weapon == null
+            ? messages.GetMessage("inventory_none") : messages.TranslateWeaponForDisplay(Weapon.Type)));
+        if (Weapon != null)
+            output.Add(string.Format(messages.GetMessage("inventory_base_damage"), Weapon.MaxDamage));
+
+        string upgradeKey = HasMagicalArmor ? "inventory_armor"
+            : HasEnchantedWeapon ? "inventory_enchantment" : "inventory_none";
+        output.Add(string.Format(messages.GetMessage("inventory_upgrade"), messages.GetMessage(upgradeKey)));
+        if (HasMagicalArmor)
+            output.Add(messages.GetMessage("stats_damage_reduction") + DamageReduction);
+        else if (HasEnchantedWeapon)
+            output.Add(string.Format(messages.GetMessage("stats_magic_damage_bonus"), MagicDamageBonus));
+        return string.Join(Environment.NewLine, output);
+    }
+
     public void DisplayStats(Messages messages)
     {
         Console.WriteLine(messages.GetMessage("stats_header"));
