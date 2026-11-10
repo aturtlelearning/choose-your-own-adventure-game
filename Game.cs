@@ -62,6 +62,14 @@ public class Game
                             return;
                         }
                     }
+                    else if (selectedPath == "west")
+                    {
+                        if (!HandleWatchtowerEncounter(messages))
+                        {
+                            Console.WriteLine(messages.GetMessage("adventure_ends"));
+                            return;
+                        }
+                    }
                     else if (selectedPath == "north")
                     {
                         HandleDragonEncounter(player, dragon, messages);
@@ -106,6 +114,7 @@ public class Game
         string trimmed = input.Trim().ToLower();
         return trimmed == "n" || trimmed == "north" ||
                trimmed == "s" || trimmed == "south" ||
+               trimmed == "w" || trimmed == "west" ||
                trimmed == "e" || trimmed == "exit";
     }
 
@@ -131,10 +140,42 @@ public class Game
             if (input == "south" || input == "s")
                 return "south";
 
+            if (input == "west" || input == "w")
+                return "west";
+
             if (input == "exit" || input == "e")
                 return "exit";
 
             Console.WriteLine(messages.GetMessage("path_invalid"));
+        }
+    }
+
+    // True returns to travel; false ends the game when input is exhausted.
+    private static bool HandleWatchtowerEncounter(Messages messages)
+    {
+        Console.WriteLine(messages.GetMessage("watchtower_arrival"));
+        while (true)
+        {
+            Console.WriteLine(messages.GetMessage("watchtower_stairs_option"));
+            Console.WriteLine(messages.GetMessage("watchtower_search_option"));
+            Console.Write(messages.GetMessage("enter_choice"));
+            string? choice = Console.ReadLine()?.Trim();
+
+            if (choice == null)
+                return false;
+
+            if (choice == "1")
+            {
+                Console.WriteLine(messages.GetMessage("watchtower_stairs_outcome"));
+                return true;
+            }
+            if (choice == "2")
+            {
+                Console.WriteLine(messages.GetMessage("watchtower_search_outcome"));
+                return true;
+            }
+
+            Console.WriteLine(messages.GetMessage("watchtower_invalid"));
         }
     }
 
